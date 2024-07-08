@@ -25,6 +25,7 @@ from .mujoco.hopper_throw.hopper_throw_in_basket import MAX_EPISODE_STEPS_HOPPER
 from .mujoco.walker_2d_jump.walker_2d_jump import MAX_EPISODE_STEPS_WALKERJUMP
 from .mujoco.box_pushing.box_pushing_env import BoxPushingDense, BoxPushingTemporalSparse, \
     BoxPushingTemporalSpatialSparse, MAX_EPISODE_STEPS_BOX_PUSHING
+from .mujoco.box_pushing.box_pushing_constr_env import BoxPushingConstrDense
 from .mujoco.table_tennis.table_tennis_env import TableTennisEnv, TableTennisWind, TableTennisGoalSwitching, TableTennisMarkov, \
     MAX_EPISODE_STEPS_TABLE_TENNIS, MAX_EPISODE_STEPS_TABLE_TENNIS_MARKOV_VER
 from .mujoco.table_tennis.mp_wrapper import TT_MPWrapper as MPWrapper_TableTennis
@@ -219,7 +220,7 @@ register(
 )
 
 # Box pushing environments with different rewards
-for reward_type in ["Dense", "TemporalSparse", "TemporalSpatialSparse"]:
+for reward_type in ["ConstrDense", "Dense", "TemporalSparse", "TemporalSpatialSparse"]:
     register(
         id='fancy/BoxPushing{}-v0'.format(reward_type),
         entry_point='fancy_gym.envs.mujoco:BoxPushing{}'.format(reward_type),
