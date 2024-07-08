@@ -1,6 +1,6 @@
 <mujoco model="base_surrounding">
   <compiler angle="radian" discardvisual="false" />
-  <option collision="all" cone="elliptic" gravity="0 0 -9.81" impratio="3" solver="Newton" timestep="0.002" tolerance="1e-10" />
+  <option cone="elliptic" gravity="0 0 -9.81" impratio="3" solver="Newton" timestep="0.002" tolerance="1e-10" />
   <size nconmax="2000" njmax="2000" />
   <asset>
     <texture builtin="gradient" height="32" rgb1="0.26 0.58 0.51" rgb2="0.26 0.58 0.51" type="skybox" width="32" />
