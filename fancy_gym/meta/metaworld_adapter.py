@@ -9,7 +9,7 @@ import uuid
 import gymnasium as gym
 import numpy as np
 
-from fancy_gym.utils.env_compatibility import EnvCompatibility
+#from fancy_gym.utils.env_compatibility import EnvCompatibility
 
 import metaworld
 

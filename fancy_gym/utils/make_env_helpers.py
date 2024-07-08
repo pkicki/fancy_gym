@@ -16,7 +16,7 @@ import numpy as np
 from gymnasium.envs.registration import register, registry
 from gymnasium.wrappers import TimeLimit
 
-from fancy_gym.utils.env_compatibility import EnvCompatibility
+#from fancy_gym.utils.env_compatibility import EnvCompatibility
 from fancy_gym.utils.wrappers import FlattenObservation
 
 try:
