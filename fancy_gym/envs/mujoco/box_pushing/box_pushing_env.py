@@ -11,7 +11,7 @@ from fancy_gym.envs.mujoco.box_pushing.box_pushing_utils import calculate_jerk_p
 
 import mujoco
 
-MAX_EPISODE_STEPS_BOX_PUSHING = 100
+MAX_EPISODE_STEPS_BOX_PUSHING = 1000
 
 BOX_POS_BOUND = np.array([[0.3, -0.45, -0.01], [0.6, 0.45, -0.01]])
 
@@ -35,7 +35,7 @@ class BoxPushingEnvBase(MujocoEnv, utils.EzPickle):
             "rgb_array",
             "depth_array",
         ],
-        "render_fps": 50
+        "render_fps": int(MAX_EPISODE_STEPS_BOX_PUSHING / 2)
     }
 
     def __init__(self, frame_skip: int = 10, random_init: bool = False, **kwargs):
@@ -64,6 +64,8 @@ class BoxPushingEnvBase(MujocoEnv, utils.EzPickle):
                            observation_space=self.observation_space, **kwargs)
         self.action_space = spaces.Box(low=-1, high=1, shape=(7,))
         self.render_active = False
+        if self.render_mode is not None:
+            self.render_active = True
 
     def step(self, action):
         action = 10 * np.clip(action, self.action_space.low, self.action_space.high)
