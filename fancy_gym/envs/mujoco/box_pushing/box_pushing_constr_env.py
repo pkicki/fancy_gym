@@ -6,6 +6,7 @@ from fancy_gym.envs.mujoco.box_pushing.box_pushing_utils import rot_to_quat, get
 from fancy_gym.envs.mujoco.box_pushing.box_pushing_utils import rot_to_quat, get_quaternion_error, rotation_distance
 from fancy_gym.envs.mujoco.box_pushing.box_pushing_utils import q_max, q_min, q_dot_max, q_torque_max
 from fancy_gym.envs.mujoco.box_pushing.box_pushing_utils import desired_rod_quat
+from spline_rl.utils.constants import BOX_PUSHING_ROD_MINIMUM_HEIGHT
 from spline_rl.utils.constraints import BoxPushingConstraints
 
 import matplotlib.pyplot as plt
@@ -60,7 +61,8 @@ class BoxPushingConstrDense(BoxPushingDense):
         box_goal_rot_dist_reward = -rotation_distance(box_quat, target_quat) / np.pi
         energy_cost = -0.0005 * np.sum(np.square(action))
 
-        reward = tcp_box_dist_reward + box_goal_pos_dist_reward + box_goal_rot_dist_reward + energy_cost
+        #reward = tcp_box_dist_reward + box_goal_pos_dist_reward + box_goal_rot_dist_reward + energy_cost
+        reward = box_goal_pos_dist_reward + box_goal_rot_dist_reward
 
         rod_inclined_angle = rotation_distance(rod_quat, self._desired_rod_quat)
         if rod_inclined_angle > np.pi / 4:
@@ -69,7 +71,7 @@ class BoxPushingConstrDense(BoxPushingDense):
 
     
     def _get_constraints(self, rod_tip_pos, qpos, qvel):
-        rod_tip_pos_constraint = np.maximum(0.035 - rod_tip_pos[2], 0)
+        rod_tip_pos_constraint = np.maximum(BOX_PUSHING_ROD_MINIMUM_HEIGHT - rod_tip_pos[2], 0)
         qpos_lb = np.maximum(q_min - qpos, 0)
         qpos_ub = np.maximum(qpos - q_max, 0)
         qpos_constraint = np.maximum(qpos_ub, qpos_lb)
@@ -185,7 +187,7 @@ class BoxPushingConstrDensePDFF(BoxPushingConstrDense):
         self.p_gain = np.array([1500., 1500., 1200., 1200., 1000., 1000., 500.])
         self.p_gain *= n
         #self.d_gain = np.array([800, 80, 60, 30, 10, 1, 0.5])
-        self.d_gain = np.array([80, 80, 60, 30, 10, 1, 0.5])
+        self.d_gain = np.array([80., 80., 60., 30., 10., 10., 5.])
         self.d_gain *= n 
         #self.p_gain = np.array([150., 150., 120., 120., 100., 100., 50.])
         #self.d_gain = np.array([6, 8, 6, 3, 1, 0.1, 0.05])
